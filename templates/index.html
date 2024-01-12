@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suitability of Your Research Indexing</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 800px;
+            margin: 10px auto; /* Adjust the margin as needed */
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .name-input {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #000;
+            vertical-align: middle;
+        }
+
+        .likert-scale label {
+            display: inline-block; /* Display radio buttons in the same line as labels */
+            margin-right: 10px; /* Adjust the margin between label and radio button */
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Suitability of Your Research Indexing</h1>
+    <form id="dataForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" class="name-input" required><br>
+
+        <label for="subject_area">
+            How would you describe the subject area in which you work or conduct your research?<br>
+            (Wie würden Sie den Fachbereich benennen, in dem Sie arbeiten, bzw. ihre Forschung betreiben?)
+        </label><br>
+        <div id="subjectAreasContainer">
+            <input type="text" name="subject_area[]" required>
+            <button type="button" onclick="addInput('subjectAreasContainer')">+</button>
+            <button type="button" onclick="removeInput(this)">-</button>
+        </div><br>
+
+        <label for="research_field">
+            How would you describe your field of research?<br>
+            (Wie würden Sie ihr Forschungsgebiet benennen?) 
+        </label><br>
+        <div id="researchFieldContainer">
+            <input type="text" name="research_field[]" required>
+            <button type="button" onclick="addInput('researchFieldContainer')">+</button>
+            <button type="button" onclick="removeInput(this)">-</button>
+        </div><br>
+
+        <label for="choose_discipline">
+            Please choose from the following list the discipline(s) that match your research area best.<br>
+            (Bitte wählen Sie aus der folgenden Liste das Fach/die Fächer aus, die am besten zu ihrem Forschungsgebiet passen.) 
+        </label><br>
+        <div id="chooseDisciplineContainer">
+            <input type="text" name="choose_discipline[]" required>
+            <button type="button" onclick="addInput('chooseDisciplineContainer')">+</button>
+            <button type="button" onclick="removeInput(this)">-</button>
+        </div><br>
+        
+        <label for="subject_area_discipline_match">
+            How well does the selected subject match your research area?<br>
+            (Wie gut beschreibt die ausgewählte Bezeichnung ihr Fachgebiet?)
+        </label><br>
+        <div class="likert-scale">
+            <label>Does not fit at all</label>
+            <input type="radio" name="likert_scale_subject[]" value="1" required ><br>
+
+            <label>Does rather not fit</label>
+            <input type="radio" name="likert_scale_subject[]" value="2" required><br>
+
+            <label>Fits somewhat</label>
+            <input type="radio" name="likert_scale_subject[]" value="3" required><br>
+
+            <label>Fits well</label>
+            <input type="radio" name="likert_scale_subject[]" value="4" required><br>
+
+            <label>Fits perfectly</label>
+            <input type="radio" name="likert_scale_subject[]" value="5" required>
+        </div><br>
+
+        <label for="choose_keyword">
+            Please choose a keyword from the following that describe your research best.<br>
+            (Bitte wählen Sie aus den folgenden Stichworten eines aus, das Ihre Forschung am besten beschreibt.) 
+        </label><br>
+        <div id="chooseKeywordContainer">
+            <input type="text" name="choose_keyword[]" required>
+            <button type="button" onclick="addInput('chooseKeywordContainer')">+</button>
+            <button type="button" onclick="removeInput(this)">-</button>
+        </div><br>
+
+        <label for="keyword_match">
+            Would the selected term be suitable to search for research results (papers, data) in your field? <br>
+            (Wäre der ausgewählte Begriff geeignet, um nach Forschungsergebnissen (Papern, Daten) in ihrem Gebiet zu suchen?)
+        </label><br>
+        <div class="likert-scale">
+            <label>Completely unsuitable</label>
+            <input type="radio" name="likert_scale_keyword[]" value="1" required><br>
+
+            <label>Disagree</label>
+            <input type="radio" name="likert_scale_keyword[]" value="2" required><br>
+
+            <label>Neither agree nor disagree</label>
+            <input type="radio" name="likert_scale_keyword[]" value="3" required><br>
+
+            <label>Agree</label>
+            <input type="radio" name="likert_scale_keyword[]" value="4" required><br>
+
+            <label>Strongly agree</label>
+            <input type="radio" name="likert_scale_keyword[]" value="5" required>
+        </div><br>
+
+        <label for="description_match">
+            Would the selected term be suitable to search for research results (papers, data) in your field? <br>
+            (Wäre der ausgewählte Begriff geeignet, um nach Forschungsergebnissen (Papern, Daten) in ihrem Gebiet zu suchen?)
+        </label><br>
+        <div class="likert-scale">
+            <label>Much too coarse</label>
+            <input type="radio" name="likert_scale_description[]" value="1" required><br>
+
+            <label>A little too coarse</label>
+            <input type="radio" name="likert_scale_description[]" value="2" required><br>
+
+            <label>Fits exactly</label>
+            <input type="radio" name="likert_scale_description[]" value="3" required><br>
+
+            <label>A little too detailed</label>
+            <input type="radio" name="likert_scale_description[]" value="4" required><br>
+
+            <label>Much too detailed</label>
+            <input type="radio" name="likert_scale_description[]" value="5" required>
+        </div><br>
+
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+       
+        function addInput(containerId) {
+            var container = document.getElementById(containerId);
+
+            // Create a new input element
+            var newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.name = getInputName(containerId);
+            newInput.required = true;
+
+            // Create a new button element for add
+            var addButton = document.createElement('button');
+            addButton.type = 'button';
+            addButton.textContent = '+';
+            addButton.onclick = function () {
+                addInput(containerId);
+            };
+
+            // Create a new button element for removal
+            var removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.textContent = '-';
+            removeButton.onclick = function () {
+                removeInput(this);
+            };
+
+            // Create a new div to hold the input and remove button
+            var newContainer = document.createElement('div');
+            newContainer.classList.add(getContainerClass(containerId));
+            newContainer.appendChild(newInput);
+            newContainer.appendChild(addButton);
+            newContainer.appendChild(removeButton);
+
+            // Insert the new container after the current container
+            container.parentNode.insertBefore(newContainer, container.nextSibling);
+        }
+
+        function getInputName(containerId) {
+            switch (containerId) {
+                case 'subjectAreasContainer':
+                    return 'subject_area[]';
+                case 'researchFieldContainer':
+                    return 'research_field[]';
+                case 'chooseDisciplineContainer':
+                    return 'choose_discipline[]';
+                    case 'chooseKeywordContainer':
+                    return 'choose_keyword[]';
+                // Add more cases as needed
+                default:
+                    return '';
+            }
+        }
+
+        function getContainerClass(containerId) {
+            switch (containerId) {
+                case 'subjectAreasContainer':
+                    return 'subject-area-container';
+                case 'researchFieldContainer':
+                    return 'research-field-container';
+                case 'chooseDisciplineContainer':
+                    return 'choose-discipline-container';
+                case 'chooseKeywordContainer':
+                    return 'choose-keyword-container';
+                // Add more cases as needed
+                default:
+                    return '';
+            }
+        }
+
+        function removeInput(button) {
+            var container = button.parentNode;
+
+            // Extract the container class from the container
+            var containerClass = container.classList[0];
+
+            // Ensure there's at least one input before trying to remove
+            if (document.querySelectorAll('.' + containerClass).length >= 1) {
+                container.parentNode.removeChild(container);
+            }
+        }
+
+        function submitForm() {
+
+            var name = $('#name').val();
+            var data = { 
+                name: name,
+                subject_area: $('input[name="subject_area[]"]').map(function () {
+                    return this.value;
+                }).get(),
+                research_field: $('input[name="research_field[]"]').map(function () {
+                    return this.value;
+                }).get(),
+                choose_discipline: $('input[name="choose_discipline[]"]').map(function () {
+                    return this.value;
+                }).get(),
+                subject_area_discipline_match: $('input[name="likert_scale_subject[]"]:checked').val() || '',
+                choose_keyword: $('input[name="choose_keyword[]"]').map(function () {
+                    return this.value
+                }).get(),
+                keyword_match: $('input[name="likert_scale_keyword[]"]:checked').val() || '',
+                description_match: $('input[name="likert_scale_description[]"]:checked').val() || ''
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/submit',
+                contentType: 'application/json;charset=UTF-8',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    alert('Data submitted successfully!');
+                    $('#dataForm')[0].reset();
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                    alert('An error occurred while submitting the form.');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
