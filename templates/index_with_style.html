@@ -4,12 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suitability of Your Research Indexing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 800px;
+            margin: 10px auto; /* Adjust the margin as needed */
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        label[for="name"] {
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .name-input {
+            width: calc(100% - 10px); /* Adjust the width as needed */
+            box-sizing: border-box;
+            display: inline-block;
+        }
+
+        input[type="radio"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #000;
+            vertical-align: middle;
+            margin: 0;  /* Add this line to remove extra margin */
+        }
+
+        input[type="radio"]:checked {
+            background-color: #000;  /* Change background color when checked if needed */
+        }
+
+        .likert-scale label {
+            display: inline-block; /* Display radio buttons in the same line as labels */
+            margin-right: 10px; /* Adjust the margin between label and radio button */
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <h1>Suitability of Your Research Indexing</h1>
     <form id="dataForm">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" class="name-input" required><br>
+        <input type="text" id="name" name="name" class="name-input" required>
 
         <label for="subject_area">
             How would you describe the subject area in which you work or conduct your research?<br>
