@@ -10,7 +10,7 @@ try:
     workbook = openpyxl.load_workbook(excel_file)
 except FileNotFoundError:
     workbook = openpyxl.Workbook()
-    workbook.active.append(['Name', 'Subject area', 'Research field', 'Choosen discipline', 'Subject area discipline match', 'Choosen keyword', 'Keyword match', 'Description match'])
+    workbook.active.append(['Name', 'Subject area', 'Research field', 'Choosen discipline', 'Subject area discipline match', 'Keyword', 'KeywordID', 'Controlled Vocabulary', 'Controlled Vocabulary URL', 'Keyword match', 'Description match'])
     workbook.save(excel_file)
 
 @app.route('/')

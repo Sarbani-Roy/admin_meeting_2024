@@ -16,10 +16,7 @@
             (Wie würden Sie den Fachbereich benennen, in dem Sie arbeiten, bzw. ihre Forschung betreiben?)
         </label><br>
         <div id="subjectAreasContainer">
-            <div class="input-group">
-                <input type="text" name="subject_area[]" required>
-            </div>
-                
+            <input type="text" name="subject_area[]" required>
             <button type="button" onclick="addInput('subjectAreasContainer')">+</button>
             <button type="button" onclick="removeInput(this)">-</button>
         </div><br>
@@ -29,10 +26,7 @@
             (Wie würden Sie ihr Forschungsgebiet benennen?) 
         </label><br>
         <div id="researchFieldContainer">
-            <div class="input-group">
-                <input type="text" name="research_field[]" required>
-            </div>
-            
+            <input type="text" name="research_field[]" required>
             <button type="button" onclick="addInput('researchFieldContainer')">+</button>
             <button type="button" onclick="removeInput(this)">-</button>
         </div><br>
@@ -42,10 +36,7 @@
             (Bitte wählen Sie aus der folgenden Liste das Fach/die Fächer aus, die am besten zu ihrem Forschungsgebiet passen.) 
         </label><br>
         <div id="chooseDisciplineContainer">
-            <div class="input-group">
-                <input type="text" name="choose_discipline[]" required>
-            </div>
-            
+            <input type="text" name="choose_discipline[]" required>
             <button type="button" onclick="addInput('chooseDisciplineContainer')">+</button>
             <button type="button" onclick="removeInput(this)">-</button>
         </div><br>
@@ -76,20 +67,7 @@
             (Bitte wählen Sie aus den folgenden Stichworten eines aus, das Ihre Forschung am besten beschreibt.) 
         </label><br>
         <div id="chooseKeywordContainer">
-            <div class="input-group">
-                <label for="keyword">Term:</label>
-                <input type="text" name="choose_keyword[]" id="keyword" placeholder="Enter a keyword" value="{{ user_input }}"><br>
-
-                <label for="keywordID">Keyword ID:</label>
-                <input type="text" name="choose_keywordid[]" id="keywordID" placeholder="Keyword ID">
-                
-                <label for="Wikidata">Controlled Vocabulary:</label>
-                <input type="text" name="choose_cvoc[]" id="Wikidata" placeholder="Controlled Vocabulary" value="Wikidata">
-                
-                <label for="controlledVocabularyURL">Controlled Vocabulary URL:</label>
-                <input type="text" name="choose_cvoc_url[]" id="controlledVocabularyURL" placeholder="Controlled Vocabulary URL">                
-            </div>
-
+            <input type="text" name="choose_keyword[]" required>
             <button type="button" onclick="addInput('chooseKeywordContainer')">+</button>
             <button type="button" onclick="removeInput(this)">-</button>
         </div><br>
@@ -145,15 +123,11 @@
         function addInput(containerId) {
             var container = document.getElementById(containerId);
 
-            // Clone the original input group within the specified container
-            var originalInputGroup = container.querySelector('.input-group');
-            var newInputGroup = originalInputGroup.cloneNode(true);
-
-            // Reset values in the cloned input group
-            var inputs = newInputGroup.querySelectorAll('input[type="text"]');
-            inputs.forEach(function (input) {
-                input.value = '';
-            });
+            // Create a new input element
+            var newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.name = getInputName(containerId);
+            newInput.required = true;
 
             // Create a new button element for add
             var addButton = document.createElement('button');
@@ -171,18 +145,16 @@
                 removeInput(this);
             };
 
-            // Append the new input group, add button, and remove button to the container
+            // Create a new div to hold the input and remove button
             var newContainer = document.createElement('div');
             newContainer.classList.add(getContainerClass(containerId));
-            newContainer.appendChild(newInputGroup);
+            newContainer.appendChild(newInput);
             newContainer.appendChild(addButton);
             newContainer.appendChild(removeButton);
 
             // Insert the new container after the current container
             container.parentNode.insertBefore(newContainer, container.nextSibling);
         }
-
-
 
         function getInputName(containerId) {
             switch (containerId) {
@@ -192,8 +164,8 @@
                     return 'research_field[]';
                 case 'chooseDisciplineContainer':
                     return 'choose_discipline[]';
-                case 'chooseKeywordContainer':
-                    return 'choose_keyword[]', 'choose_keywordid[]', 'choose_cvoc[]' , 'choose_cvoc_url[]';
+                    case 'chooseKeywordContainer':
+                    return 'choose_keyword[]';
                 // Add more cases as needed
                 default:
                     return '';
@@ -246,15 +218,6 @@
                 choose_keyword: $('input[name="choose_keyword[]"]').map(function () {
                     return this.value
                 }).get(),
-                choose_keywordid: $('input[name="choose_keywordid[]"]').map(function () {
-                    return this.value
-                }).get(),
-                choose_cvoc: $('input[name="choose_cvoc[]"]').map(function () {
-                    return this.value
-                }).get(),
-                choose_cvoc_url: $('input[name="choose_cvoc_url[]"]').map(function () {
-                    return this.value
-                }).get(),
                 keyword_match: $('input[name="likert_scale_keyword[]"]:checked').val() || '',
                 description_match: $('input[name="likert_scale_description[]"]:checked').val() || ''
             };
@@ -266,7 +229,7 @@
                 data: JSON.stringify(data),
                 success: function(response) {
                     alert('Data submitted successfully!');
-                    /*$('#dataForm')[0].reset();*/
+                    $('#dataForm')[0].reset();
                 },
                 error: function(error) {
                     console.error('Error:', error);
