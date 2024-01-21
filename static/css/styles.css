@@ -1,0 +1,176 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    max-width: 90%;
+    margin: 10px auto; 
+}
+
+.form-question {
+    font-weight: 600;
+    font-size: 18px;
+    color: #333; 
+    margin-bottom: 10px;
+}
+
+.input-group {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.input-group input[type="text"] {
+    width: 40%;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #fff;
+    /* Add transition for smooth effects */
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Add focus style */
+.input-group input[type="text"]:focus {
+    border-color: #007bff; /* Adjust color to your preference */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.input-group button {
+    border: 1px solid #007bff;
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold; /* Make the symbols bold */
+    margin-right: 5px; /* Add margin between buttons */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Add hover effect for buttons */
+.input-group button:hover {
+    background-color: #0056b3; /* Darker color on hover */
+}
+
+.input-group input[type="text"]::placeholder {
+    color: #999;
+}
+
+#suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 50%;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: lightblue;
+    display: none;
+    z-index: 1;
+    list-style: none;
+}
+
+#suggestions li {
+    padding: 5px;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+}
+
+.choose-keyword-container {
+    position: relative;
+}
+
+#suggestions li.selected {
+    background-color: #ddd; /* Gray background for selected suggestion */
+}
+
+.feedback {
+    margin-top: 24px;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.likert-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+}
+
+.likert-question {
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 25px;
+}
+
+.likert-scale {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%; 
+    padding-right: 20px;
+}
+
+.likert-scale_no_question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    column-gap: 2%;
+    width: 67%;
+}
+
+.likert-scale input {
+    justify-content: space-between;
+    align-items: center;
+    align-self: center;
+}
+
+.likert-scale_no_question label {
+    font-weight: 600;
+    font-size: 16px;
+    justify-content: space-between;
+}
+
+input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #000;
+    vertical-align: middle;
+    margin: 0;  /* Add this line to remove extra margin */
+}
+
+input[type="radio"]:checked {
+    background-color: #000;  /* Change background color when checked */
+}
+
+/* Style for the submit button */
+#submitBtn {
+    display: block;
+    margin: 0 auto;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Add hover effect for the submit button */
+#submitBtn:hover {
+    background-color: #0056b3; /* Darker color on hover */
+}

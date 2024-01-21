@@ -2,8 +2,9 @@ from flask import Flask, render_template, request, jsonify
 import openpyxl
 from itertools import zip_longest
 import requests
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), 'templates'))
 
 # Wikidata endpoint URL for fetching keywords
 wikidata_endpoint = "https://www.wikidata.org/w/api.php"
@@ -42,7 +43,7 @@ try:
     workbook = openpyxl.load_workbook(excel_file)
 except FileNotFoundError:
     workbook = openpyxl.Workbook()
-    workbook.active.append(['Dataverse Name', 'Subject area', 'Research field', 'Choosen discipline', 'User Keyword' 'Wiki Keyword', 'Wiki URL','TEMA Keyword', 'TEMA URL', 'Vocab Suggestion', 'Subject area discipline match', 'Keyword match', 'Description match', 'Suggestion'])
+    workbook.active.append(['Dataverse Name', 'Subject area', 'Research field', 'Choosen discipline', 'Discipline reco', 'User Keyword' 'Wiki Keyword', 'Wiki URL','TEMA Keyword', 'TEMA URL', 'Vocab Suggestion', 'Subject area discipline match', 'Keyword match', 'Description match', 'Suggestion'])
     workbook.save(excel_file)
 
 @app.route('/')
@@ -70,6 +71,7 @@ def submit():
     # Append the form data to the sheet
     name = data['name']
     index_suggestion = data['index_suggestion']
+    discipline_reco = data['discipline_reco']
 
     # Use get method to get the value or provide a default value if the key is not present
     subject_area_discipline_match = data.get('subject_area_discipline_match', '')
@@ -77,8 +79,9 @@ def submit():
     description_match = data.get('description_match', '')
 
     for subject_area, research_field, choose_discipline, user_keyword, choose_keyword, choose_cvoc_url, vocab_reco in zip_longest(subject_areas, research_fields, choose_disciplines, user_keywords, choose_keywords, choose_cvoc_urls, vocab_recos, fillvalue=""):
-        sheet.append([name, subject_area, research_field, choose_discipline, user_keyword, choose_keyword, choose_cvoc_url, '', '', vocab_reco, subject_area_discipline_match, keyword_match, description_match, index_suggestion])
+        sheet.append([name, subject_area, research_field, choose_discipline, discipline_reco, user_keyword, choose_keyword, choose_cvoc_url, '', '', vocab_reco, subject_area_discipline_match, keyword_match, description_match, index_suggestion])
         name = ''
+        discipline_reco = ''
         subject_area_discipline_match = ''
         keyword_match = ''
         description_match = ''
@@ -87,7 +90,7 @@ def submit():
     # Save the workbook
     workbook.save(excel_file)
 
-    #'Subject area', 'Research field', 'Choosen discipline', 'User Keyword' 'Wiki Keyword', 'Wiki URL','TEMA Keyword', 'TEMA URL', 'Vocab Suggestion', 'Dataverse Name', 'Subject area discipline match', 'Keyword match', 'Description match', 'suggestion'
+    #'Subject area', 'Research field', 'Choosen discipline', 'discipline_reco', User Keyword' 'Wiki Keyword', 'Wiki URL','TEMA Keyword', 'TEMA URL', 'Vocab Suggestion', 'Dataverse Name', 'Subject area discipline match', 'Keyword match', 'Description match', 'suggestion'
     
     return jsonify({'success': True})
 
