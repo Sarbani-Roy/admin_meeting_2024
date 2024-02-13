@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suitability of the Subject Indexing of Your Research</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Find keywords that describe your research best</h1>
+    <form id="dataForm">
+        
+        <label for="user_keyword" class="form-question">
+            Please mention few keywords that describes your research best.<br>
+            () 
+        </label><br>
+        <div id="userKeywordContainer">
+            <div class="input-group">
+                <input type="text" name="user_keyword[]" required>
+            </div>
+            
+            <button type="button" onclick="addInput('userKeywordContainer')">+</button>
+            <button type="button" onclick="removeInput(this)">-</button>
+        </div><br>
+
+
+        
+        <label for="choose_keyword" class="form-question">
+        Please try to find those keywords in following vocabularies. You may start typing and use suggestion list from the corresponding vocabulary to find.<br>
+        () 
+        </label><br>
+        <br>
+        <label for="wikidata">
+            Wikidata:
+        </label><br>
+        <div id="chooseKeywordContainer">
+            <div class="input-group">
+                <label for="keyword">Term:</label>
+                <input type="text" name="choose_keyword[]" id="keyword" placeholder="Enter a keyword" value="{{ user_input }}"><br>
+                <ul id="suggestions"></ul>
+
+                <label for="keywordID">Keyword ID:</label>
+                <input type="text" name="choose_keywordid[]" id="keywordID"><br>
+                
+                <label for="controlledVocabularyURL">Controlled Vocabulary URL:</label>
+                <input type="text" name="choose_cvoc_url[]" id="controlledVocabularyURL">                
+            </div>        
+
+            <button type="button" onclick="addInput('chooseKeywordContainer')">+</button>
+            <button type="button" onclick="removeInput(this)">-</button>
+        </div><br>
+        <label for="TEMA">
+            TEMA:
+        </label><br>
+        <div id="temaKeywordContainer">
+            <div class="input-group">
+                <label for="temaKeyword">Term:</label>
+                <input type="text" name="choose_tema_keyword[]" id="temaKeyword" placeholder="Enter a keyword" value="{{ user_input }}"><br>
+                <ul id="temaSuggestions"></ul>
+
+                <label for="temaKeywordID">Keyword ID:</label>
+                <input type="text" name="choose_tema_keywordid[]" id="temaKeywordID"><br>
+                
+                <label for="temaControlledVocabularyURL">Controlled Vocabulary URL:</label>
+                <input type="text" name="choose_tema_cvoc_url[]" id="temaControlledVocabularyURL">                
+            </div>  
+            <button type="button" onclick="addInput('temaKeywordContainer')">+</button>
+            <button type="button" onclick="removeInput(this)">-</button>
+        </div><br>
+
+
+
+        <label for="vocab_reco" class="form-question">
+            Which one of the above vocabularies do you prefer? You may recommend some related to your research area.<br>
+            () 
+        </label><br>
+        <div id="vocabRecoContainer">
+            <div class="input-group">
+                <input type="text" name="vocab_reco[]" required>
+            </div>
+            
+            <button type="button" onclick="addInput('vocabRecoContainer')">+</button>
+            <button type="button" onclick="removeInput(this)">-</button>
+        </div><br>
+
+
+
+        <div class="feedback">
+            <label for class="feedback">Please provide your feedback here:</label><br>
+        </div>
+
+
+        <div class="likert-group">
+            <div class="likert-question">
+                <label for="no_question"></label>
+            </div>
+            <div class="likert-scale_no_question">
+                <label>Does not fit at all</label>    
+                <label>Does not fit at all</label>    
+                <label>Fits somewhat</label>    
+                <label>Fits well</label>
+                <label>Fits perfectly</label>
+             </div>
+        </div>
+
+
+        <div class="likert-group">
+            <div class="likert-question">
+                <label for="keyword_match" class="form-question">
+                    How well does the selected keywords describe your research area? <br>
+                    ()
+                </label><br>
+            </div>
+            <div class="likert-scale">    
+                <input type="radio" name="likert_scale_keyword" value="1" required>    
+                <input type="radio" name="likert_scale_keyword" value="2" required>    
+                <input type="radio" name="likert_scale_keyword" value="3" required>                
+                <input type="radio" name="likert_scale_keyword" value="4" required>
+                <input type="radio" name="likert_scale_keyword" value="5" required>
+            </div><br>
+        </div>
+
+
+
+        <label for="name" class="form-question">Please mention the name of the Dataverse you are adminstrating:</label>
+        <div class="input-group">
+            <input type="text" id="name" name="name" class="name-input" required><br>
+        </div>
+
+
+
+        <label for="index_suggestion" class="form-question">Suggestions:</label><br>
+        <textarea id="index_suggestion" name="index_suggestion" class="index_suggestion-input" rows="4" cols="50" required></textarea><br>
+
+
+
+        <button type="button" id="submitBtn" onclick="submitForm()">Submit</button>
+
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
