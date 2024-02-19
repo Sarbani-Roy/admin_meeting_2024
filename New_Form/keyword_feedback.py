@@ -17,16 +17,9 @@ def get_wikidata_suggestions(user_input):
     }
 
     wikidata_endpoint = "https://www.wikidata.org/w/api.php"
-
     response = requests.get(wikidata_endpoint, params=params)
-
-    # print(f"API Request URL: {response.url}")
-
     if response.status_code == 200:
         data = response.json()
-        # print(f"API Response Data: {data}")
-
-        # Accumulate all suggestions in this list
         suggestions = []
 
         for result in data.get('search', []):
@@ -46,7 +39,10 @@ def search():
     if user_input:
         # Get suggestions from Wikidata API
         suggestions = get_wikidata_suggestions(user_input)
-        matching_keywords = [(label, qid, f"https{url}") for label, qid, url in suggestions]
+        refined_suggestions = [(label, qid, f"https{url}") for label, qid, url in suggestions]
+        combined_suggestions = set(refined_suggestions)
+        matching_keywords = list(combined_suggestions)
+        
         print(matching_keywords)
 
     return jsonify(matching_keywords)
@@ -58,7 +54,7 @@ def get_tema_suggestions(user_input):
     params = {
         'format': 'json',
         'q': user_input,
-        'ontology': 'tema',
+        # 'ontology': 'tema',
         'rows': '50',
         'start': '1'
         }
@@ -70,11 +66,9 @@ def get_tema_suggestions(user_input):
 
     if response.status_code == 200:
         data = response.json()
-        #print(data)
         suggestions = []
 
         for result in data['response']['docs']:
-            print(result['label'])
             suggestions.append((result['label'], result['short_form'], result['iri']))
         return suggestions
     else:
@@ -89,10 +83,13 @@ def tema_search():
     if user_input:
         # Get suggestions from TEMA API
         suggestions = get_tema_suggestions(user_input)
-        matching_keywords = [(label, id, iri) for label, id, iri in suggestions]
+        # matching_keywords = [(label, id, iri) for label, id, iri in suggestions]
+        combined_suggestions = set(suggestions)
+        matching_keywords = list(combined_suggestions)
+
+    print(matching_keywords)
 
     return jsonify(matching_keywords)
-
 
 
 # Load existing workbook or create a new one
@@ -126,7 +123,7 @@ def submit():
     vocab_recos = data.get('vocab_reco', [])    
     name = data['name']
     index_suggestion = data['index_suggestion']
-    keyword_match = data.get('keyword_match', '')
+    keyword_match = data['keyword_match']
 
     for user_keyword, choose_keyword, choose_cvoc_url, choose_tema_keyword, choose_tema_cvoc_url, vocab_reco in zip_longest(user_keywords, choose_keywords, choose_cvoc_urls,choose_tema_keywords, choose_tema_cvoc_urls, vocab_recos, fillvalue=""):
         sheet.append([name, user_keyword, choose_keyword, choose_cvoc_url, choose_tema_keyword, choose_tema_cvoc_url, vocab_reco, keyword_match, index_suggestion])
