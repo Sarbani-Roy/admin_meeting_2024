@@ -301,7 +301,7 @@ function submitForm() {
         vocab_reco: $('input[name="vocab_reco[]"]').map(function () {
             return this.value;
         }).get(),  
-        keyword_match: $('input[name="likert_scale_keyword[]"]:checked').val() || '',
+        keyword_match: $('input[name="likert_scale_keyword"]:checked').val() ,
         index_suggestion: index_suggestion
     };
 
