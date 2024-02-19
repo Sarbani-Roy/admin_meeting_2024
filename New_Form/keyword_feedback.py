@@ -59,7 +59,7 @@ def get_tema_suggestions(user_input):
         'start': '1'
         }
     
-    tibapi = "https://service.tib.eu/ts4tib/api/search?"
+    tibapi = "https://service.tib.eu/ts4tib/api/select?"
 
     response = requests.get(tibapi, params=params)
     print(f"API Request URL: {response.url}")
