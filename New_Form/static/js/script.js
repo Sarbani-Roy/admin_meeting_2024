@@ -147,7 +147,10 @@ function setupSuggestionBox(inputElement, suggestionList, data, idInput, urlInpu
             suggestions[i].classList.remove('selected');
         }
 
-        suggestions[selectedIndex].classList.add('selected');
+        // suggestions[selectedIndex].classList.add('selected');
+        if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
+            suggestions[selectedIndex].classList.add('selected');
+        }
     }
 }
 
@@ -200,6 +203,53 @@ function addInput(containerId) {
     inputs.forEach(function (input) {
         input.value = '';
     });
+
+    console.log(containerId)
+    console.log()
+
+    if (containerId === 'chooseKeywordContainer') {
+
+        // Clone suggestion box setup for the new input field
+        var newKeywordInput = newInputGroup.querySelector('input[name="choose_keyword[]"]');
+        var newKeywordIDInput = newInputGroup.querySelector('input[name="choose_keywordid[]"]');
+        var newControlledVocabularyURLInput = newInputGroup.querySelector('input[name="choose_cvoc_url[]"]');
+        var newSuggestionsList = newInputGroup.querySelector('ul');
+
+        // Clear the suggestion list for the new input field
+        newSuggestionsList.innerHTML = '';
+
+        // Setup suggestion box for the new input field
+        setupSuggestionBox(
+            newKeywordInput,
+            newSuggestionsList,
+            [],
+            newKeywordIDInput,
+            newControlledVocabularyURLInput,
+            '/search'
+        );
+    }
+
+    if (containerId === 'temaKeywordContainer') {
+
+        // Clone suggestion box setup for the new input field
+        var newTemaKeywordInput = newInputGroup.querySelector('input[name="choose_tema_keyword[]"]');
+        var newTemaKeywordIDInput = newInputGroup.querySelector('input[name="choose_tema_keywordid[]"]');
+        var newTemaControlledVocabularyURLInput = newInputGroup.querySelector('input[name="choose_tema_cvoc_url[]"]');
+        var newTemaSuggestionsList = newInputGroup.querySelector('ul');
+
+        // Clear the suggestion list for the new input field
+        newTemaSuggestionsList.innerHTML = '';
+
+        // Setup suggestion box for the new input field
+        setupSuggestionBox(
+            newTemaKeywordInput,
+            newTemaSuggestionsList,
+            [],
+            newTemaKeywordIDInput,
+            newTemaControlledVocabularyURLInput,
+            '/tema-search'
+        );
+    }
 
     // Create a new button element for add
     var addButton = document.createElement('button');
@@ -301,7 +351,7 @@ function submitForm() {
         vocab_reco: $('input[name="vocab_reco[]"]').map(function () {
             return this.value;
         }).get(),  
-        keyword_match: $('input[name="likert_scale_keyword"]:checked').val() ,
+        keyword_match: $('input[name="likert_scale_keyword"]:checked').val()|| '' ,
         index_suggestion: index_suggestion
     };
 
@@ -312,7 +362,7 @@ function submitForm() {
         data: JSON.stringify(data),
         success: function(response) {
             alert('Data submitted successfully!');
-            //$('#dataForm')[0].reset();
+            $('#dataForm')[0].reset();
         },
         error: function(error) {
             console.error('Error:', error);

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Visualization</title>
+    <!-- Include Cytoscape.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.18.0/cytoscape.min.js"></script>
+    <style>
+        #cy {
+            height: 100vh;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Graph Visualization</h1>
+    <!-- Container for the Cytoscape.js graph -->
+    <div id="cy"></div>
+
+    <script>
+        // Function to fetch and visualize the graph
+        function fetchAndVisualizeGraph() {
+            // Make an asynchronous request to the server to fetch the graph
+            fetch('/get_graph')
+                .then(response => response.json())
+                .then(data => {
+                    // Use Cytoscape.js to visualize the graph
+                    const cy = cytoscape({
+                        container: document.getElementById('cy'),
+                        elements: data.elements,
+                        style: data.style,
+                        layout: { name: 'cose' } // You can change the layout as needed
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching graph:', error);
+                    alert('An error occurred while fetching the graph.');
+                });
+        }
+
+        // Call the function to fetch and visualize the graph
+        fetchAndVisualizeGraph();
+    </script>
+</body>
+</html>

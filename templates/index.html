@@ -46,7 +46,9 @@
         </label><br>
         <div id="chooseDisciplineContainer">
             <div class="input-group">
+                <button type="button" id ="dfg-button" onclick="dfg()" class="dfg-button">DFG-Classification</button>
                 <input type="text" name="choose_discipline[]" required>
+                <div id="graphContainer"></div>
             </div>
             
             <button type="button" onclick="addInput('chooseDisciplineContainer')">+</button>
@@ -91,7 +93,7 @@
         <div id="chooseKeywordContainer">
             <div class="input-group">
                 <label for="keyword">Term:</label>
-                <input type="text" name="choose_keyword[]" id="keyword" placeholder="Enter a keyword" value="{{ user_input }}" style="width: 60%;"><br>
+                <input type="text" name="choose_keyword[]" id="keyword" placeholder="Enter a keyword" value="{{ user_input }}"><br>
                 <ul id="suggestions"></ul>
 
                 <label for="keywordID">Keyword ID:</label>
@@ -220,6 +222,8 @@
         <button type="button" id="submitBtn" onclick="submitForm()">Submit</button>
 
     </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>

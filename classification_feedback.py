@@ -3,6 +3,11 @@ import openpyxl
 from itertools import zip_longest
 import requests
 import os
+import multiprocessing
+from multiprocessing import Process
+import turtle
+from rdflib import Graph
+from rdflib.namespace import SKOS
 
 app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), 'templates'))
 
@@ -36,6 +41,115 @@ def get_wikidata_suggestions(user_input):
     else:
         print(f"API Request failed with status code {response.status_code}. Response text: {response.text}")
         return []
+
+
+def draw_tree_and_listen(turtle_file_path, x, y, gap_broader, gap_narrower, result_queue):
+    def draw_tree(concepts, x, y, parent_label, gap):
+        turtle.penup()
+        turtle.goto(x, y)
+        turtle.pendown()
+
+        turtle.hideturtle()
+        if parent_label is not None:
+            turtle.write(parent_label, font=("Arial", 12, "normal"))
+
+        coordinate_x = x + 20
+        coordinate_y = y - 20
+        y = coordinate_y
+
+        turtle.goto(x, y)
+        coordinate = {}
+        node_rectangles = {}
+
+        for concept in concepts:
+            if len(list(g.objects(concept, SKOS.prefLabel))) > 0:
+                label = list(g.objects(concept, SKOS.prefLabel))[0].value
+
+            turtle.goto(x, y)
+            turtle.goto(coordinate_x, y)
+            turtle.write(label, font=("Arial", 10, "normal"))
+            turtle.goto(x, y)
+
+            coordinate[concept] = (coordinate_x, y)
+
+            label_width = 50
+            label_height = 15
+            node_rectangles[concept] = (coordinate_x, y, coordinate_x + label_width, y + label_height)
+
+            coordinate_y = y - gap
+            y = coordinate_y
+
+        return coordinate, node_rectangles
+
+    def on_click(x, y):
+
+        nonlocal result_queue  
+        # nonlocal g, node_rectangles
+
+        clicked_label = None
+        for concept, rect in node_rectangles.items():
+            print(f'concept: {concept}, rect: {rect}')
+            x1, y1, x2, y2 = rect
+            if x1 <= x <= x2 and y1 <= y <= y2:
+                if len(list(g.objects(concept, SKOS.prefLabel))) > 0:
+                    clicked_label = list(g.objects(concept, SKOS.prefLabel))[0].value
+                    print(f'clicked concept: {clicked_label}')
+                    #clicked_labels.append(label)
+
+        result_queue.put(clicked_label)
+        #return clicked_label
+
+    # Load the Turtle file
+    g = Graph()
+    g.parse(turtle_file_path, format="turtle")
+
+    # Get the broader concepts using a set to ensure uniqueness
+    broader_concepts = set(g.objects(None, SKOS.hasTopConcept))
+
+    # Set up the turtle window
+    turtle.speed(10)
+    turtle.width(2)
+
+    node_rectangles = {}
+
+    if broader_concepts:
+        (coordinate, node_rectangles) = draw_tree(broader_concepts, x, y, "DFG", gap_broader)
+
+        for broader_concept in broader_concepts:
+            (coordinate_x, coordinate_y) = coordinate[broader_concept]
+            narrower_concepts = set(g.objects(broader_concept, SKOS.narrower))
+            draw_tree(narrower_concepts, coordinate_x, coordinate_y, None, gap_narrower)
+
+    else:
+        print("DFG broader concept not found in the given Turtle file.")
+
+    # Bind the callback function to the mouse click event
+    turtle.onscreenclick(on_click)
+
+    # Keep the window open
+    turtle.mainloop()
+
+    #result_queue.put("Finished")
+
+
+def get_dfg_classification():
+    result_queue = multiprocessing.Queue()
+    p = Process(target=draw_tree_and_listen, args=("output_skos_min.ttl", -370, 350, 60, 20, result_queue))
+    p.start()
+    #p.join()  # Wait for the process to finish
+
+    result = result_queue.get()
+    print("Result from turtle process:", result)
+
+    return result
+
+
+@app.route('/get_dfg_classification')
+def get_dfg_classification_route():
+    dfg_classification = get_dfg_classification()
+    print(dfg_classification)
+    return jsonify({'dfgClassification': dfg_classification})
+
 
 # Load existing workbook or create a new one
 excel_file = 'data.xlsx'
@@ -110,4 +224,4 @@ def search():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8000)
+    app.run(debug=True, host='0.0.0.0', port=8080)

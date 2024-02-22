@@ -13,6 +13,24 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+// Function to load graph.html content into #graphContainer
+function loadGraphContent() {
+    $('#graphContainer').load('graph.html');
+}
+
+// Add a click event listener to the 'DFG Classification' button
+$(document).ready(function() {
+    // Load graph content on button click
+    $('#chooseDisciplineContainer .dfg-button').click(function() {
+        loadGraphContent();
+    });
+});
+
+// Load graph content when the page initially loads
+$(document).ready(function() {
+    loadGraphContent();
+});
+
 
 // For keywords
 // To set the position of the suggestions list
@@ -109,7 +127,53 @@ keywordInput.addEventListener('focus', function () {
 keywordInput.addEventListener('blur', function () {
     selectedIndex = -1;
     selectSuggestion(selectedIndex);
-});    
+});  
+
+function dfg() {
+    fetch('/get_dfg_classification')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(dfgdata => {
+            // Update the input field with the returned DFG classification
+            var dfgClassificationResult = document.querySelector('#chooseDisciplineContainer input[name="choose_discipline[]"]');
+            if (dfgClassificationResult) {
+                dfgClassificationResult.value = dfgdata.dfgClassification;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching DFG classification:', error);
+            alert('An error occurred while fetching DFG classification.');
+        });
+}
+
+// Function to get DFG classification
+/*function dfg() {
+    $.ajax({
+        type: 'GET',
+        url: '/get_dfg_classification',
+        success: function(response) {
+            // Update the input field with the returned DFG classification
+            var dfgClassificationResult = document.querySelector('#chooseDisciplineContainer input[name="choose_discipline[]"]');
+            if (dfgClassificationResult) {
+                dfgClassificationResult.value = response.dfgClassification;
+            }
+        },
+        error: function(error) {
+            console.error('Error fetching DFG classification:', error);
+            alert('An error occurred while fetching DFG classification.');
+        }
+    });*/
+    // Get the input element
+    //var disciplineInput = document.querySelector('#chooseDisciplineContainer input[name="choose_discipline[]"]');
+
+    // Set its value to "DFG"
+    //if (disciplineInput) {
+        //disciplineInput.value = "DFG";
+    //}
 
 function scrollSuggestions(direction) {
     const suggestions = suggestionsList.children;

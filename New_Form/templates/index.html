@@ -12,8 +12,7 @@
     <form id="dataForm">
         
         <label for="user_keyword" class="form-question">
-            Please mention few keywords that describes your research best.<br>
-            () 
+            Please mention few keywords that describes your research best.
         </label><br>
         <div id="userKeywordContainer">
             <div class="input-group">
@@ -27,18 +26,16 @@
 
         
         <label for="choose_keyword" class="form-question">
-        Please try to find those keywords in following vocabularies. You may start typing and use suggestion list from the corresponding vocabulary to find.<br>
-        () 
-        </label><br>
+        Please try to find those keywords in following vocabularies. You may start typing and use suggestion list from the corresponding vocabulary to find.        </label><br>
         <br>
-        <label for="wikidata">
+        <label for="wikidata" style="font-weight: bold;">
             Wikidata:
         </label><br>
         <div id="chooseKeywordContainer">
             <div class="input-group">
                 <label for="keyword">Term:</label>
                 <input type="text" name="choose_keyword[]" id="keyword" placeholder="Enter a keyword" value="{{ user_input }}"><br>
-                <ul id="suggestions"></ul>
+                <ul id="suggestions" style = "max-width: 494px;"></ul>
 
                 <label for="keywordID">Keyword ID:</label>
                 <input type="text" name="choose_keywordid[]" id="keywordID"><br>
@@ -50,14 +47,14 @@
             <button type="button" onclick="addInput('chooseKeywordContainer')">+</button>
             <button type="button" onclick="removeInput(this)">-</button>
         </div><br>
-        <label for="TEMA">
-            TEMA:
+        <label for="TEMA" style="font-weight: bold;">
+            Terminology Service:
         </label><br>
         <div id="temaKeywordContainer">
             <div class="input-group">
                 <label for="temaKeyword">Term:</label>
                 <input type="text" name="choose_tema_keyword[]" id="temaKeyword" placeholder="Enter a keyword" value="{{ user_input }}"><br>
-                <ul id="temaSuggestions"></ul>
+                <ul id="temaSuggestions" style = "max-width: 494px;"></ul>
 
                 <label for="temaKeywordID">Keyword ID:</label>
                 <input type="text" name="choose_tema_keywordid[]" id="temaKeywordID"><br>
@@ -72,8 +69,7 @@
 
 
         <label for="vocab_reco" class="form-question">
-            Which one of the above vocabularies do you prefer? You may recommend some related to your research area.<br>
-            () 
+            Which one of the above vocabularies do you prefer? You may recommend some related to your research area.
         </label><br>
         <div id="vocabRecoContainer">
             <div class="input-group">
@@ -108,8 +104,7 @@
         <div class="likert-group">
             <div class="likert-question">
                 <label for="keyword_match" class="form-question">
-                    How well does the selected keywords describe your research area? <br>
-                    ()
+                    How well does the selected keywords describe your research area?
                 </label><br>
             </div>
             <div class="likert-scale">    

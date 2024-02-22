@@ -1,0 +1,58 @@
+@prefix dfgfach: <https://www.dfg.de/dfg_profil/gremien/fachkollegien/faecher/#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+dfgfach:101-01 a skos:Concept ;
+    skos:broader dfgfach:101 ;
+    skos:inScheme dfgfach:concept_scheme ;
+    skos:note "Second-level of classification"@en ;
+    skos:prefLabel "Ur- und Frühgeschichte (weltweit)"@de,
+        "Prehistory and World Archaeology"@en .
+
+dfgfach:101-02 a skos:Concept ;
+    skos:broader dfgfach:101 ;
+    skos:inScheme dfgfach:concept_scheme ;
+    skos:note "Second-level of classification"@en ;
+    skos:prefLabel "Klassische Philologie"@de,
+        "Classical Philology"@en .
+
+dfgfach:102-01 a skos:Concept ;
+    skos:broader dfgfach:102 ;
+    skos:inScheme dfgfach:concept_scheme ;
+    skos:note "Second-level of classification"@en ;
+    skos:prefLabel "Mittelalterliche Geschichte"@de,
+        "Medieval History"@en .
+
+dfgfach:102-02 a skos:Concept ;
+    skos:broader dfgfach:102 ;
+    skos:inScheme dfgfach:concept_scheme ;
+    skos:note "Second-level of classification"@en ;
+    skos:prefLabel "Frühneuzeitliche Geschichte"@de,
+        "Early Modern History"@en .
+
+dfgfach:101 a skos:Concept ;
+    skos:inScheme dfgfach:concept_scheme ;
+    skos:narrower dfgfach:101-01,
+        dfgfach:101-02 ;
+    skos:note "First-level of classification"@en ;
+    skos:prefLabel " Alte Kulturen"@de,
+        "Ancient Cultures"@en ;
+    skos:related dfgfach:102 ;
+    skos:topConceptOf dfgfach:concept_scheme .
+
+dfgfach:102 a skos:Concept ;
+    skos:inScheme dfgfach:concept_scheme ;
+    skos:narrower dfgfach:102-01,
+        dfgfach:102-02 ;
+    skos:note "First-level of classification"@en ;
+    skos:prefLabel " Geschichtswissenschaften"@de,
+        "History"@en ;
+    skos:related dfgfach:101 ;
+    skos:topConceptOf dfgfach:concept_scheme .
+
+dfgfach:concept_scheme a skos:ConceptScheme ;
+    skos:hasTopConcept dfgfach:101,
+        dfgfach:102 ;
+    skos:notation "DFG" ;
+    skos:prefLabel "DFG Fachbezeichnung"@de,
+        "DFG Subject Heading"@en .
+
